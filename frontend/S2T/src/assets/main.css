@@ -1,0 +1,26 @@
+@import './base.css';
+
+body {
+  background-color: var(--bp-black);
+  color: var(--bp-white);
+}
+
+#app {
+  color: var(--bp-white);
+}
+
+.form-floating {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--charcoal);
+}
+
+a {
+  color: var(--bp-yellow);
+  text-decoration: none;
+}
+
+hr {
+  border: none;
+  height: 4px;
+  background: var(--bp-yellow);
+}

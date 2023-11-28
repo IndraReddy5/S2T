@@ -1,0 +1,41 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --honeydew: #eaf2e3ff;
+  --shamrock-green: #4f9d69ff;
+  --charcoal: #3e505bff;
+  --tangerine: #ef8a17ff;
+
+  /*Bird of prey canva*/
+  --bp-white: #F3F5F9;
+  --bp-yellow: #FFDB15;
+  --bp-black:#020301;
+  --bp-khaki: #B5A197;
+
+  --color-background: #fff;
+  --color-background-soft:var(--honeydew);
+  --color-background-mute: #f2f2f2;
+
+  --color-border: rgba(60, 60, 60, 0.12);
+  --color-border-hover: rgba(60, 60, 60, 0.29);
+
+  --color-heading: #2c3e50;
+  --color-text: #2c3e50;
+
+  --section-gap: 160px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+  /* Hide scrollbar for IE,Edge & FireFox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+*::-webkit-scrollbar{
+  display: none;
+}

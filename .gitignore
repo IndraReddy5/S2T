@@ -1,0 +1,11 @@
+.env
+S2T_VENV/*
+backend/__pycache__/*
+backend/.vscode/
+frontend/S2T/node_modules/
+frontend/S2T/build/
+frontend/S2T/.env
+frontend/S2T/.vscode/
+backend/audio_store/
+backend/temp_file
+backend/model/
