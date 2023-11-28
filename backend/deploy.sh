@@ -22,4 +22,4 @@ git pull
 
 # Deploy the current version
 echo "Building and deploying containers ..."
-docker compose up -d
+docker compose up -d 
