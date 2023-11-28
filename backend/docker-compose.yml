@@ -1,0 +1,18 @@
+version: '3'
+
+volumes:
+  audio-store:
+
+services:
+  api:
+    build: .
+    container_name: S2T-api
+    command: sh -c "uvicorn main:app --host 0.0.0.0 --port 80"
+    env_file:
+      - .env
+    ports:
+      - 80:80
+    volumes:
+      - type: volume
+        source: audio-store
+        target: /backend
