@@ -15,6 +15,11 @@ async def get_top_words():
 # Retrieving user top phrases from db
 async def get_user_top_phrases(username: str):
     top_phrases = user_top_phrases_collection.find_one({"username": username})
+    tp = await top_phrases
+    if tp:
+        return UserTopPhrases(username=username, transcriptions=tp["transcriptions"])
+    else:
+        return UserTopPhrases(username=username, transcriptions=[])
     return await top_phrases
 
 
@@ -37,10 +42,13 @@ async def add_top_phrases(username: str, audio_transcriptions: List[str] = []):
     top_phrases = await get_user_top_phrases(username)
     transcriptions = []
     if top_phrases != []:
-        if top_phrases:
-            transcriptions.extend(top_phrases["transcriptions"])
+        if top_phrases.transcriptions:
+            transcriptions.extend(top_phrases.transcriptions)
     transcriptions.extend(audio_transcriptions)
-    top_phrases = await get_top_phrases(transcriptions)
+    if len(transcriptions) > 3:
+        top_phrases = await get_top_phrases(transcriptions)
+    else:
+        top_phrases = transcriptions
     await user_top_phrases_collection.update_one(
         {"username": username}, {"$set": {"transcriptions": top_phrases}}, upsert=True
     )

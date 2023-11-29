@@ -7,9 +7,9 @@ from utils import *
 
 app = FastAPI()
 
-origins = [
-    os.getenv("FRONTEND_URL"),
-]
+# origins = [
+#     os.getenv("FRONTEND_URL"),
+# ]
 
 app.add_middleware(
     CORSMiddleware,
@@ -71,6 +71,16 @@ async def add_user_words(
     )
 
 
+
+@app.get("/{username}/top_phrases", response_model=UserTopPhrases)
+async def get_user_top_words(
+    username: str, current_user: User = Depends(get_current_user)
+):
+    if current_user.username == username:
+        return await get_user_top_phrases(username)
+    raise HTTPException(status_code=403, detail=f"You can't see {username} top words")
+
+
 @app.post("/{username}/add_top_phrases")
 async def add_user_top_phrases(
     username: str,
@@ -86,7 +96,6 @@ async def add_user_top_phrases(
 
 @app.post("/get_transcription/")
 async def get_transcriptions_from_file(file: UploadFile = File(...), current_user: User = Depends(get_current_user)):
-    print(file)
     str_filename = dt.now().strftime("%Y_%m_%d_%H_%M_%S_") + file.filename.replace(" ", "_")
     await save_audio_file(file.file, str_filename)
     transcription, phrases, words = await get_transcriptions(str_filename)

@@ -66,18 +66,16 @@ export default {
         const formdata = new URLSearchParams();
         formdata.append('username', this.username)
         formdata.append('password', this.password)
-        console.log(formdata)
         await fetch(__BACKEND_URL__ + "login", { headers: headers, body: formdata, method: "POST" })
           .then(response => {
-            console.log(response);
             return response.json();
           })
           .then(async (data) => {
-            console.log(data)
             if (data.access_token) {
               localStorage.setItem("access_token", data.access_token);
               localStorage.setItem("username", this.username);
               localStorage.setItem("exp_time", data.exp_time);
+              localStorage.setItem("last_token_accessed_time", new Date().toUTCString());
               this.$router.push('/dashboard');
             }
             else {

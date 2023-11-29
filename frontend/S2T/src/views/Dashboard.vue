@@ -5,8 +5,11 @@
             <h1>Your Old Transcriptions</h1>
         </div>
         <hr />
-        <div v-if="old_transcriptions_flag"> 
+        <div v-if="old_transcriptions_flag">
             <div v-for="(value, index) in old_transcriptions">
+                <div class="mb-1">
+                    <span> {{ getTimeStamp(value.audio_file) }} </span>
+                </div>
                 <audio controls>
                     <source :src="audioURL(value.audio_file)" type="audio/mp3">
                 </audio>
@@ -14,6 +17,11 @@
                     {{ value.audio_ct }}
                 </p>
                 <hr />
+            </div>
+        </div>
+        <div v-else>
+            <div class="text-center w-100 pt-5 pb-3">
+                <h1>No Transcriptions Found</h1>
             </div>
         </div>
     </div>
@@ -24,9 +32,11 @@
                 <div class="input-group mb-3 pt-2">
                     <input type="file" class="form-control" id="inputGroupFile02" ref="fileInput"
                         @changeInput="handleFileInput" accept=".mp3">
-                    <label class="input-group-text" for="inputGroupFile02">Upload</label>
-                    <button class="btn bg-white btn-sm ms-2" @click="fetchTranscription">Submit</button>
+                    <button class="btn bg-white btn-sm ms-2" @click="fetchTranscription" v-if="!tsFlag">Submit</button>
                 </div>
+            </div>
+            <div v-if="tsFlag">
+                <span>...getting your transcriptions</span>
             </div>
             <div class="d-flex">
                 <button class='w-100 btn btn-sm m-2' type="submit" style="background-color: var(--bp-khaki);"
@@ -51,6 +61,7 @@ export default {
             old_transcriptions: null,
             files: [],
             transcription: "",
+            tsFlag: false,
         }
     },
     async mounted() {
@@ -58,7 +69,7 @@ export default {
         await fetch(__BACKEND_URL__ + localStorage.getItem("username") + '/get_transcriptions', { headers: headers, method: "GET" })
             .then(response => {
                 return response.json();
-            }).then(data => this.old_transcriptions = data);
+            }).then(data => {if(!data.detail){this.old_transcriptions = data.reverse()} else {this.$router.push('/logout')}});
 
     },
     computed: {
@@ -69,17 +80,14 @@ export default {
             else {
                 return false;
             }
-        }
+        },
     },
     methods: {
-        subFunction(res_obj){
-            if(this.old_transcriptions.length > 0 && this.old_transcriptions != []){
-                this.old_transcriptions = [res_obj, ...this.old_transcriptions]
-            }
-            else{
-                this.old_transcriptions = [res_obj, ...this.old_transcriptions]
-            }
-            
+        getTimeStamp(fileName) {
+            let ret_str = ''
+            let temp = fileName.slice(0, 19).split('_');
+            ret_str = temp[3] + ':' + temp[4] + ' ' + temp[2] + '/' + temp[1] + '/' + temp[0];
+            return ret_str;
         },
         record: async function () {
             if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
@@ -107,10 +115,9 @@ export default {
             if (this.recorder) {
                 this.recorder.stop();
                 console.log(this.recorder.state);
-
+                this.tsFlag = true;
 
                 let da = [];
-                let ps = [];
                 // If audio data available then push 
                 // it to the chunk array
                 this.recorder.ondataavailable = function (ev) {
@@ -137,14 +144,11 @@ export default {
                     let audio = document.getElementById('player');
 
                     // Pass the audio url to the 2nd video tag
-                    console.log(audioSrc);
                     audio.src = audioSrc;
-                    let ts = "";
                     await fetch(audioSrc).then(res => res.blob()).then(async (blob) => {
                         const headers = { "Authorization": "Bearer " + localStorage.getItem("access_token") };
                         const data = new FormData();
                         data.append('file', blob, 'recorded_audio.mp3');
-                        console.log(data.get('file'))
                         await fetch(__BACKEND_URL__ + 'get_transcription', { headers: headers, method: "POST", body: data })
                             .then(response => {
                                 return response.json();
@@ -155,16 +159,13 @@ export default {
                                     "audio_ct": res_data["transcription"],
                                     "audio_file": res_data["audio_file"]
                                 }
-                                ts = res_obj;
+                                location.reload();
                             });
                     }).catch(error => {
                         console.log(error)
                     });
-                    ps.push(ts);
                 }
                 this.recorder = null;
-                console.log(this.recorder.onstop.ps)
-                this.subFunction(ps);
             }
         },
         audioURL: function (audio_file) {
@@ -175,6 +176,7 @@ export default {
             const files = fileInput.files;
         },
         async fetchTranscription() {
+            this.tsFlag = true;
             const fileInput = this.$refs.fileInput;
             const files = fileInput.files;
             if (files.length > 0) {
@@ -201,7 +203,7 @@ export default {
                                 else {
                                     this.old_transcriptions = [res_obj]
                                 }
-                                window.scrollTo(0, 0);
+                                location.reload();
                             }
                         })
                         .catch(error => {
@@ -209,6 +211,7 @@ export default {
                         });
                 }
             }
+            this.tsFlag = false;
         },
     }
 }

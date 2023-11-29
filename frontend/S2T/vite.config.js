@@ -14,7 +14,7 @@ export default defineConfig({
     }
   },
   define: {
-    '__BACKEND_URL__' : JSON.stringify('http://localhost:5000/'),
-    '__File_URL__' : JSON.stringify('http://localhost:5000/static/')
+    '__BACKEND_URL__' : JSON.stringify('http://localhost:8000/'),
+    '__File_URL__' : JSON.stringify('http://localhost:8000/static/')
   },
 })

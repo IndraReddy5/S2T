@@ -98,6 +98,6 @@ async def get_new_token(token: str = Depends(oauth2_scheme)):
         elif exp_time - dt.utcnow() < timedelta(minutes=5):
             return await create_token(username, timedelta(minutes=30))
         else:
-            return None
+            return Token(access_token=token, token_type="bearer", exp_time=int((exp_time - dt.utcnow()).seconds / 60))
     except JWTError:
         raise credentials_exception
