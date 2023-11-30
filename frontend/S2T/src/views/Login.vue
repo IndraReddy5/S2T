@@ -26,7 +26,7 @@
           <strong>{{ errormsg }}</strong>.
           <button type="button" class="btn-close" aria-label="Close" @click="errStatus = false"></button>
         </div>
-        <small>New to Pixel Shows? <router-link to="/signup">Sign up now</router-link> </small>
+        <small>New to S2T? <router-link to="/signup">Sign up now</router-link> </small>
       </form>
     </div>
   </template>

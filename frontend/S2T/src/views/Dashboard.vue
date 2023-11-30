@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <nav class="navbar fixed-bottom navbar-dark bg-dark">
+    <nav class="navbar fixed-bottom sticky-bottom navbar-dark bg-dark">
         <div class="container-fluid">
             <div>
                 <span class="w-100 text-small">choose audio file to transcribe</span>
@@ -69,7 +69,7 @@ export default {
         await fetch(__BACKEND_URL__ + localStorage.getItem("username") + '/get_transcriptions', { headers: headers, method: "GET" })
             .then(response => {
                 return response.json();
-            }).then(data => {if(!data.detail){this.old_transcriptions = data.reverse()} else {this.$router.push('/logout')}});
+            }).then(data => { if (!data.detail) { this.old_transcriptions = data.reverse() } else { this.$router.push('/logout') } });
 
     },
     computed: {
