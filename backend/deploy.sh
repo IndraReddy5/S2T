@@ -12,7 +12,7 @@ docker compose down
 
 # Delete old images
 echo "Delete old docker image ..."
-docker image rm S2T-api:latest
+docker image rm backend-api:latest
 
 # Checkout the `main` branch
 git checkout main

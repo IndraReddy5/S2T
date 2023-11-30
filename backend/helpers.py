@@ -14,8 +14,6 @@ nltk.data.path.append('backend/nltk_data/')
 
 async def save_audio_file(file: UploadFile, filename: str):
     contents = file.read()
-    if not os.path.exists(f"audio_store/"):
-        os.makedirs(f"audio_store/")
     with open(f"audio_store/{filename}", "wb") as f:
         f.write(contents)
     return {"message": "File saved"}

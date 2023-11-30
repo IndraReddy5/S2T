@@ -19,6 +19,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+if not os.path.exists(f"audio_store/"):
+    os.makedirs(f"audio_store/")
+    
 app.mount("/static", StaticFiles(directory="audio_store"), name="static")
 
 @app.post("/create_user")
