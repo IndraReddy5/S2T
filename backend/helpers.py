@@ -10,7 +10,7 @@ import warnings
 import nltk
 
 warnings.filterwarnings("ignore", category=UserWarning)
-nltk.data.path.append('backend/nltk_data/')
+nltk.data.path.append('nltk_data/')
 
 async def save_audio_file(file: UploadFile, filename: str):
     contents = file.read()
