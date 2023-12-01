@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <nav class="navbar fixed-bottom sticky-bottom navbar-dark bg-dark">
+    <nav class="navbar fixed-bottom sticky-bottom position-absolute navbar-dark bg-dark">
         <div class="container-fluid">
             <div>
                 <span class="w-100 text-small">choose audio file to transcribe</span>
