@@ -6,26 +6,30 @@
         </div>
         <hr />
         <div v-if="old_transcriptions_flag">
-            <div v-for="(value, index) in old_transcriptions">
-                <div class="mb-1">
-                    <span> {{ getTimeStamp(value.audio_file) }} </span>
+            <div v-if="old_transcriptions">
+                <div v-if="old_transcriptions.length > 1">
+                    <div v-for="(value, index) in old_transcriptions">
+                        <div class="mb-1">
+                            <span> {{ getTimeStamp(value.audio_file) }} </span>
+                        </div>
+                        <audio controls>
+                            <source :src="audioURL(value.audio_file)" type="audio/mp3">
+                        </audio>
+                        <p>
+                            {{ value.audio_ct }}
+                        </p>
+                        <hr />
+                    </div>
                 </div>
-                <audio controls>
-                    <source :src="audioURL(value.audio_file)" type="audio/mp3">
-                </audio>
-                <p>
-                    {{ value.audio_ct }}
-                </p>
-                <hr />
-            </div>
-        </div>
-        <div v-else>
-            <div class="text-center w-100 pt-5 pb-3">
-                <h1>No Transcriptions Found</h1>
+                <div v-else>
+                    <div class="text-center w-100 pt-5 pb-3" style="height:77vh">
+                        <h1>No Transcriptions Found</h1>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <nav class="navbar sticky-bottom position-absolute navbar-dark bg-dark">
+    <nav class="navbar sticky-bottom navbar-dark bg-dark">
         <div class="container-fluid">
             <div>
                 <span class="w-100 text-small">choose audio file to transcribe</span>
