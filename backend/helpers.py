@@ -11,6 +11,9 @@ import nltk
 
 warnings.filterwarnings("ignore", category=UserWarning)
 nltk.data.path.append('nltk_data/')
+nltk.download("wordnet")
+nltk.download('stopwords')
+nltk.download('punkt')
 
 async def save_audio_file(file: UploadFile, filename: str):
     contents = file.read()

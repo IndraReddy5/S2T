@@ -24,6 +24,12 @@ if not os.path.exists(f"audio_store/"):
     
 app.mount("/static", StaticFiles(directory="audio_store"), name="static")
 
+
+@app.get("/", include_in_schema=False)
+async def root():
+    return {"message": "hello world"}
+
+
 @app.post("/create_user")
 async def create_new_user(user: User):
     await create_user(user)
