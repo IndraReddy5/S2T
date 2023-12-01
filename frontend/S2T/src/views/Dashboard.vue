@@ -7,7 +7,7 @@
         <hr />
         <div v-if="old_transcriptions_flag">
             <div v-if="old_transcriptions">
-                <div v-if="old_transcriptions.length > 1">
+                <div v-if="old_transcriptions.length >= 1">
                     <div v-for="(value, index) in old_transcriptions">
                         <div class="mb-1">
                             <span> {{ getTimeStamp(value.audio_file) }} </span>
